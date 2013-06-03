@@ -14,23 +14,29 @@ command! -narg=0 ZoomIn    :call s:ZoomIn()
 command! -narg=0 ZoomOut   :call s:ZoomOut()
 command! -narg=0 ZoomReset :call s:ZoomReset()
 
-" map
-nmap + :ZoomIn<CR>
-nmap - :ZoomOut<CR>
+" Map Ctrl-MouseWheel to zoom in/out
+nmap <C-MouseDown> :ZoomIn<CR>
+nmap <C-MouseUp> :ZoomOut<CR>
+
+" Map Ctrl-KeypadPlus/Minus to zoom in/out
+nmap <C-kPlus> :ZoomIn<CR>
+nmap <C-kMinus> :ZoomOut<CR>
 
 " guifont size + 1
 function! s:ZoomIn()
-  let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  " Original: let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  " But we made some changes for Vim6 on WindowsXP.
+  let l:fsize = substitute(&guifont, '^.*[ -]\([0-9]*\)$', '\1', '')
   let l:fsize += 1
-  let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
+  let l:guifont = substitute(&guifont, '^\(.*[ -]\)[0-9]*$', '\1' . l:fsize, '')
   let &guifont = l:guifont
 endfunction
 
 " guifont size - 1
 function! s:ZoomOut()
-  let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  let l:fsize = substitute(&guifont, '^.*[ -]\([0-9]*\)$', '\1', '')
   let l:fsize -= 1
-  let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
+  let l:guifont = substitute(&guifont, '^\(.*[ -]\)[0-9]*$', '\1' . l:fsize, '')
   let &guifont = l:guifont
 endfunction
 
@@ -47,10 +53,10 @@ zoom.vim : control gui font size with "+" or "-" keys.
 ------------------------------------------------------------------------------
 $VIMRUNTIMEPATH/plugin/zoom.vim
 ==============================================================================
-author  : OMI TAKU
+author  : OMI TAKU (changes by joeytwiddle)
 url     : http://nanasi.jp/
 email   : mail@nanasi.jp
-version : 2008/07/18 10:00:00
+version : 2010/03/16 14:00:00
 ==============================================================================
 
 Control Vim editor font size with key "+", or key "-".
@@ -59,14 +65,18 @@ And, press "-" key, Vim editor gui font size will change smaller.
 
 This plugin is for GUI only.
 
-
 Normal Mode:
-    +                  ... change font size bigger
-    -                  ... change font size smaller
+
+    CTRL-kPlus         ... make font size bigger
+    CTRL-MouseUp
+
+    CTRL-kMinus        ... make font size smaller
+    CTRL-MouseDown
 
 Command-line Mode:
-    :ZoomIn            ... change font size bigger
-    :ZoomOut           ... change font size smaller
+
+    :ZoomIn            ... make font size bigger
+    :ZoomOut           ... make font size smaller
     :ZoomReset         ... reset font size changes.
 
 ==============================================================================

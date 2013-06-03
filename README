@@ -8,12 +8,17 @@ This plugin is for GUI only.
 
 
 Normal Mode:
-    +                  ... change font size bigger
-    -                  ... change font size smaller
+
+    CTRL-kPlus         ... make font size bigger
+    CTRL-MouseUp
+
+    CTRL-kMinus        ... make font size smaller
+    CTRL-MouseDown
 
 Command-line Mode:
-    :ZoomIn            ... change font size bigger
-    :ZoomOut           ... change font size smaller
+
+    :ZoomIn            ... make font size bigger
+    :ZoomOut           ... make font size smaller
     :ZoomReset         ... reset font size changes.
 
 
