@@ -10,8 +10,8 @@ set cpo&vim
 let s:current_font = &guifont
 
 " command
-command! -narg=0 ZoomIn    :call s:ZoomIn()
-command! -narg=0 ZoomOut   :call s:ZoomOut()
+command! -narg=? ZoomIn    :call s:ZoomIn(<f-args>)
+command! -narg=? ZoomOut   :call s:ZoomOut(<f-args>)
 command! -narg=0 ZoomReset :call s:ZoomReset()
 
 " Map Ctrl-MouseWheel to zoom in/out
@@ -23,19 +23,21 @@ nmap <C-kPlus> :ZoomIn<CR>
 nmap <C-kMinus> :ZoomOut<CR>
 
 " guifont size + 1
-function! s:ZoomIn()
+function! s:ZoomIn(...)
+  let amount = a:0 ? a:0 : 1
   " Original: let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
   " But we made some changes for Vim6 on WindowsXP.
   let l:fsize = substitute(&guifont, '^.*[ -]\([0-9]*\)$', '\1', '')
-  let l:fsize += 1
+  let l:fsize += amount
   let l:guifont = substitute(&guifont, '^\(.*[ -]\)[0-9]*$', '\1' . l:fsize, '')
   let &guifont = l:guifont
 endfunction
 
 " guifont size - 1
-function! s:ZoomOut()
+function! s:ZoomOut(...)
+  let amount = a:0 ? a:0 : 1
   let l:fsize = substitute(&guifont, '^.*[ -]\([0-9]*\)$', '\1', '')
-  let l:fsize -= 1
+  let l:fsize -= amount
   let l:guifont = substitute(&guifont, '^\(.*[ -]\)[0-9]*$', '\1' . l:fsize, '')
   let &guifont = l:guifont
 endfunction
@@ -56,7 +58,7 @@ $VIMRUNTIMEPATH/plugin/zoom.vim
 author  : OMI TAKU (changes by joeytwiddle)
 url     : http://nanasi.jp/
 email   : mail@nanasi.jp
-version : 2010/03/16 14:00:00
+version : 2013/06/26 19:22:00
 ==============================================================================
 
 Control Vim editor font size with key "+", or key "-".
@@ -75,8 +77,8 @@ Normal Mode:
 
 Command-line Mode:
 
-    :ZoomIn            ... make font size bigger
-    :ZoomOut           ... make font size smaller
+    :ZoomIn [amount]   ... make font size bigger
+    :ZoomOut [amount]  ... make font size smaller
     :ZoomReset         ... reset font size changes.
 
 ==============================================================================
