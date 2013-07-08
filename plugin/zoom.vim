@@ -24,7 +24,7 @@ nmap <C-kMinus> :ZoomOut<CR>
 
 " guifont size + 1
 function! s:ZoomIn(...)
-  let amount = a:1 ? a:1 : 1
+  let amount = a:0 ? a:1 : 1
   " Original: let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
   " But we made some changes for Vim6 on WindowsXP.
   let l:fsize = substitute(&guifont, '^.*[ -]\([0-9]*\)$', '\1', '')
@@ -35,7 +35,7 @@ endfunction
 
 " guifont size - 1
 function! s:ZoomOut(...)
-  let amount = a:1 ? a:1 : 1
+  let amount = a:0 ? a:1 : 1
   let l:fsize = substitute(&guifont, '^.*[ -]\([0-9]*\)$', '\1', '')
   let l:fsize -= amount
   let l:guifont = substitute(&guifont, '^\(.*[ -]\)[0-9]*$', '\1' . l:fsize, '')
